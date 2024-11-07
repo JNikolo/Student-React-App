@@ -44,12 +44,17 @@ const studentList = [
 ];
 
 function App() {
-  const [student, setStudent] = useState(studentList);
+  const [student, setStudent] = useState(null);
 
   useEffect(() => {
     const getStudents = async () => {
-      const response = await fetch('http://localhost:3000/students');
+      console.log(import.meta.env.VITE_API_URL);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/students`);
       const data = await response.json();
+      if (data === null) {
+        setStudent(studentList);
+        return;
+      }
       setStudent(data);
     };
     getStudents();
@@ -74,7 +79,7 @@ function App() {
           </button>   
         </Link>
           <button onClick = {async () => {
-            await fetch('http://localhost:3000/students', {
+            await fetch(`${import.meta.env.VITE_API_URL}/students`, {
               body: JSON.stringify({
                 sId: '367',
                 firstName: 'Jolly',
