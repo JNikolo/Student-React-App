@@ -44,18 +44,13 @@ const studentList = [
 ];
 
 function App() {
-  const [student, setStudent] = useState(null);
+  const [student, setStudent] = useState([]);
 
   useEffect(() => {
     const getStudents = async () => {
-      console.log(import.meta.env.VITE_API_URL);
       const response = await fetch(`${import.meta.env.VITE_API_URL}/students`);
       const data = await response.json();
-      if (data === null) {
-        setStudent(studentList);
-        return;
-      }
-      setStudent(data);
+      setStudent(data.result);
     };
     getStudents();
   }, []);
